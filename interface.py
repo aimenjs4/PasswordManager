@@ -2,38 +2,64 @@ import tkinter as tk
 from tkinter.ttk import *
 import entry
 
-def Window():
+def Window(master_window):
     
-    window = tk.Tk()
-    window.geometry('700x400')
-    window.title("miner")
+    #Config for Window
+    LoginFrame= tk.Toplevel(master_window)
+    LoginFrame.geometry('700x400')
+    LoginFrame.title("Login")
 
-
-    username_label = tk.Label(window, text="Userid:")
+    #Setting Username buttons
+    username_label = tk.Label(LoginFrame, text="Userid:")
     username_label.pack()
-
-    username_entry = tk.Entry(window)
+    username_entry = tk.Entry(LoginFrame)
     username_entry.pack()
 
-
-    password_label = tk.Label(window, text= "Password:")
+    #Setting Password Buttons
+    password_label = tk.Label(LoginFrame, text= "Password:")
     password_label.pack()
-
-    password_entry = tk.Entry(window, show="*")
+    #Cover User Input with *
+    password_entry = tk.Entry(LoginFrame, show="*")
     password_entry.pack()
 
 
-
-    login_button = tk.Button(window, text="Login", 
+    #Setting LoginFrame button and Parameters
+    login_button = tk.Button(LoginFrame, text="Login", 
                              command=lambda: entry.validate_login(username_entry, password_entry))
     login_button.pack()
 
-    quit_button = tk.Button(window, text = "Quit", command=window.destroy)
+    #Setting Quit Button to Exit Programm
+    quit_button = tk.Button(LoginFrame, text = "Quit", command=LoginFrame.destroy)
     quit_button.place(x=330, y=125)
     
-    window.mainloop()   
+    #Loop to Keep Window open
+    LoginFrame.mainloop()   
     
-def newWindow(window):
-    vault = tk.Toplevel(window)
+    #Still in Progress (Vault Window)
+def VaultFrame(LoginFrame):
+    vault = tk.Toplevel(LoginFrame)
     vault.title("Vault")
-    vault.ge
+    vault.geometry('700x400')
+    
+def MasterFrame():
+    master_window = tk.Tk()
+    master_window.title("Master Login")
+    master_window.geometry('700x400')
+
+    masterkey_label = tk.Label(master_window, text="Master Key")
+    masterkey_label.pack()
+    masterkey_entry = tk.Entry(master_window)
+    masterkey_entry.pack()
+    
+    def OnLogin():
+        if entry.master_login(masterkey_entry, master_window):
+            Login_Master['state'] = 'disabled'
+            Window(master_window)
+            master_window.destroy()
+    
+      
+    Login_Master = tk.Button(master_window, text ="Login", command=OnLogin)
+    Login_Master.pack()
+    
+    master_window.mainloop()
+    

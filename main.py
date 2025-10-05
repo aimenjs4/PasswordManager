@@ -1,4 +1,5 @@
-from interface import *
+import interface
 
-Window()
-newWindow()
+
+if __name__ == "__main__":
+    interface.MasterFrame()
